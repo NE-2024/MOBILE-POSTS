@@ -1,70 +1,68 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { Text } from "@/components/Text";
+import { View } from "@/components/View";
+import CustomButton from "@/components/form/customButton";
+import CustomInput from "@/components/form/customInput";
+import usePosts from "@/hooks/usePosts";
+import { useState } from "react";
+import { Image, Keyboard, TouchableWithoutFeedback } from "react-native";
+import Logo from "@/assets/images/logo.png"
+import { useToast } from "react-native-toast-notifications";
+// Dismiss keyboard when user taps outside of the input field
+const DismissKeyboard = ({ children }: any) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 
 export default function HomeScreen() {
+  const toast = useToast();
+  const {createPost, creatingPost} = usePosts();
+  const [data, setData] = useState({
+    title: "",
+    body: "",
+    userId: Math.floor(Math.random() * 100)
+  });
+  
+  const handleSubmit = () => {
+    if(!data.title || !data.body) {
+      return toast.show("Please fill in all fields", {
+        type: 'danger'
+    });
+  }
+    if(data.title.length < 5) {
+      return toast.show("Title must be at least 5 characters", {
+        type: 'danger'
+    });
+    }
+    createPost(data, true);
+ 
+  
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <DismissKeyboard>
+   <View className="flex-1 justify-center items-center w-full px-6">
+    <View className="">
+      <Image source={Logo} className="h-20 w-64" resizeMode="contain"	/>
+    </View>
+    <View className="py-4">
+      <Text className="text-center font-bold text-2xl pt-8">Create a post</Text>
+      <View className="py-4">
+      <Text>Please add the post title,then add its description</Text>
+      <Text className="text-center">Help others to learn from your work</Text>
+      </View>
+    </View>
+     <View className="w-full">
+     <CustomInput label="Title" value={data.title} onChangeText={(val:string) => setData({...data, title: val})}/>
+     <CustomInput label="Description" number={10} value={data.body} onChangeText={(val:string)=> setData({...data, body: val})}  />
+     
+     </View>
+     <View className="w-full py-8">
+     <CustomButton  buttonText="Create Post" isLoading={creatingPost} onPress={handleSubmit} />
+     </View>
+   </View>
+   </DismissKeyboard>
+
   );
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});

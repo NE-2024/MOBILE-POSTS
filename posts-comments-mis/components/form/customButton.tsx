@@ -24,7 +24,7 @@ export default function CustomButton({
       onPress={onPress}
       loading={isLoading}
       style={{
-        backgroundColor: "#F7951C",
+        backgroundColor: "#581845",
         justifyContent: "center",
         height: 54,
       }}

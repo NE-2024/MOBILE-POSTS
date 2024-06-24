@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { ToastProvider } from 'react-native-toast-notifications';
+import { RecoilRoot } from 'recoil';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -27,11 +29,16 @@ export default function RootLayout() {
   }
 
   return (
+    <ToastProvider>
+      <RecoilRoot>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(screens)/comments" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>
+    </RecoilRoot>
+    </ToastProvider>
   );
 }

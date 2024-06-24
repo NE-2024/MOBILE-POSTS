@@ -12,6 +12,7 @@ interface FormInputProps extends TextInputProps {
   secureTextEntry?: boolean;
   right?: React.ReactNode;
   left?: React.ReactNode;
+  number?: number;
 }
 
 const CustomInput: React.FC<FormInputProps> = ({
@@ -25,6 +26,7 @@ const CustomInput: React.FC<FormInputProps> = ({
   darkColor,
   right,
   left,
+  number,
   ...otherProps
 }) => {
   const backgroundColor = useThemeColor(
@@ -39,7 +41,7 @@ const CustomInput: React.FC<FormInputProps> = ({
     <TextInput
       style={{
         backgroundColor,
-        fontSize: 12,
+        fontSize: 17,
         color: "black",
         marginTop: 6,
       }}
@@ -48,13 +50,16 @@ const CustomInput: React.FC<FormInputProps> = ({
       mode="outlined"
       autoCapitalize="none"
       outlineColor="#E6E8EE"
-      activeOutlineColor="#F7951C"
+      activeOutlineColor="#581845"
       value={value}
       onChangeText={onChangeText}
       secureTextEntry={secureTextEntry}
       left={left}
       right={right}
       {...otherProps}
+      numberOfLines={number}
+      multiline
+      
     />
   );
 };
