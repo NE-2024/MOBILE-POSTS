@@ -20,7 +20,7 @@ export default function TabLayout() {
         options={{
           title: 'New Post',
           tabBarIcon: ({ color, focused }) => (
-            <MaterialIcons name="post-add" size={20} color={color} />
+            <MaterialIcons name="post-add" size={24} color={color} />
           ),
         }}
       />
@@ -29,7 +29,7 @@ export default function TabLayout() {
         options={{
           title: 'View Posts',
           tabBarIcon: ({ color, focused }) => (
-            <MaterialCommunityIcons name="postage-stamp" size={20} color={color} />
+            <MaterialCommunityIcons name="postage-stamp" size={24} color={color} />
           ),
         }}
       />

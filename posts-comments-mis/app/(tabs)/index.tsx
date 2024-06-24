@@ -54,7 +54,7 @@ export default function HomeScreen() {
     </View>
      <View className="w-full">
      <CustomInput label="Title" value={data.title} onChangeText={(val:string) => setData({...data, title: val})}/>
-     <CustomInput label="Description" number={10} value={data.body} onChangeText={(val:string)=> setData({...data, body: val})}  />
+     <CustomInput label="Description" number={6} value={data.body} onChangeText={(val:string)=> setData({...data, body: val})}  />
      
      </View>
      <View className="w-full py-8">

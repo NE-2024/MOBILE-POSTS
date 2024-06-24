@@ -74,6 +74,7 @@ export default function usePosts() {
       } else {
         toast.show("An error occurred", {
           type: "danger",
+          
         });
       }
     } catch (error) {

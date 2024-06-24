@@ -2,13 +2,15 @@
 import usePosts from '@/hooks/usePosts';
 import { View } from '@/components/View';
 import { Text } from '@/components/Text';
-import { ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
-import { Entypo, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { ActivityIndicator, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { Entypo, FontAwesome, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { useRecoilState } from 'recoil';
 import { postId } from '@/lib/atoms';
 import { router } from 'expo-router';
 import { useGoBack } from '@/hooks/useGoBack';
-
+import NatureImage from "@/assets/images/nature.jpg"
+import NatureImage2 from "@/assets/images/nature2.jpg"
+import NatureImage3 from "@/assets/images/nature3.jpg"
 export default function PostsPage() {
   const { gettingPosts, availablePosts,deletePost, deletingPost} = usePosts();
   const [post_id, setPostId] = useRecoilState(postId);
@@ -28,18 +30,24 @@ export default function PostsPage() {
       <ScrollView showsVerticalScrollIndicator={false}>
       {availablePosts?.map((post,index) => (
        <View key={index} className='border-[0.5px] border-[#b1b1b1] py-4 px-4 mt-4 rounded-sm'>
-         <Text className='text-lg font-bold'>{post.title}</Text>
+        <View className='w-full'>
+          <Image source={Math.floor(Math.random() * 3) === 0 ? NatureImage : Math.floor(Math.random() * 3) === 1 ? NatureImage2 : NatureImage3} className='w-full'/>
+        </View>
+         <Text className='text-lg font-bold pt-4'>{post.title}</Text>
          <Text className=''>{post.body}</Text>
 
          <View className='flex flex-row gap-x-4 mt-4 justify-end'>
+         <TouchableOpacity className='bg-[#58184510] rounded-full p-3'>
+         <FontAwesome6 name="thumbs-up" size={24} color="#581845" />   
+          </TouchableOpacity>
            <TouchableOpacity onPress={()=> {
             setPostId(post.id)
             router.push("(screens)/comments")
-           }}>
-           <FontAwesome name="comments-o" size={24} color="black" />
+           }} className='bg-[#58184510] rounded-full p-3'>
+           <FontAwesome name="comments-o" size={24} color="#581845" />
            </TouchableOpacity>
-           <TouchableOpacity onPress={()=> deletePost(post.id,true)}>
-           <MaterialIcons name="delete-outline" size={24} color="black" />
+           <TouchableOpacity onPress={()=> deletePost(post.id,true)} className='bg-[#58184510] rounded-full p-3'>
+           <MaterialIcons name="delete-outline" size={24} color="#581845" />
            </TouchableOpacity>
          </View>
        </View>
